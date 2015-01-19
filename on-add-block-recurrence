@@ -1,0 +1,33 @@
+#!/usr/bin/python
+
+# This hook tries to solve the problem where two TW clients create
+# both child tasks of the same recurrent tasks.
+
+# https://bug.tasktools.org/browse/TD-44
+
+# Only hook-approach that does not come up to having multiple task
+# occurences in the database (albeit deleted), is to prohibit recurrent
+# task creation on all but one of the clients.
+
+import sys
+from tasklib.task import Task
+
+def is_new_local_recurrence_child_task(task):
+    # Do not affect tasks not spun by recurrence
+    if not task['parent']:
+        return False
+
+    # Newly created recurrence tasks actually have
+    # modified field copied from the parent, thus
+    # older than entry field (until their ID is generated)
+    if (task['modified'] - task['entry']).total_seconds() < 0:
+        return True
+
+task = Task.from_input()
+
+if blocked_computer() and is_new_local_recurrence_child_task(task):
+    # Uncomment to prove it's working, comment out normally, it's annoying
+    # print "Creation of recurrent task blocked: %s" % task['description']
+    sys.exit(1)
+
+print task.export_data()
