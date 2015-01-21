@@ -25,9 +25,7 @@ def is_new_local_recurrence_child_task(task):
 
 task = Task.from_input()
 
-if blocked_computer() and is_new_local_recurrence_child_task(task):
+if not is_new_local_recurrence_child_task(task):
     # Uncomment to prove it's working, comment out normally, it's annoying
     # print "Creation of recurrent task blocked: %s" % task['description']
-    sys.exit(1)
-
-print task.export_data()
+    print task.export_data()
