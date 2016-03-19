@@ -1,3 +1,9 @@
+Deprecated: Use taskrc recurrence=no setting instead
+----------------------------------------------------
+
+This project is deprecated - the recommended solution is to use
+"recurrence=no" setting in your taskrc.
+
 Taskwarrior Block Recurrence Hook
 -------------------------------------------
 
